@@ -1,7 +1,10 @@
-import express, { json, urlencoded } from "express";
+import express, {json, urlencoded} from "express";
 import cors from "cors";
-const connectDB = require('./db')
-import Product from "./products";
+import connectDB from "./db.js";
+import Product from "./products.js";
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
 
