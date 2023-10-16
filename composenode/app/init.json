@@ -1,0 +1,33 @@
+[
+    {
+      "name": "Coca Juice",
+      "price": 2,
+      "quantity": 100
+    },
+    {
+        "name": "Sprite",
+        "price": 1.99,
+        "quantity": 20
+    },
+    {
+        "name": "Apple Juice",
+        "price": 2.5,
+        "quantity": 300
+    },
+    {
+        "name": "Orange juice",
+        "price": 2.75,
+        "quantity": 125
+    },
+    {
+        "name": "Schweppes",
+        "price": 1.25,
+        "quantity": 125
+    },
+    {
+        "name": "Oasis",
+        "price": 2.89,
+        "quantity": 200
+    }
+  ]
+  

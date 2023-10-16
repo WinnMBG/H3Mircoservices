@@ -31,6 +31,29 @@ app.get("/products", async (req, res) => {
     }
   });
 
+  app.post('/products', async (req, res) => {      try {
+        const {name, price, quantity} = req.body;
+        const product = new Product({name, price, quantity});
+        await product.save();
+        res.json({success: true});
+    }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+
+app.put('/products/:id', async (req, res) => {  
+    try {
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        if (!product) throw new Error('Product not found');
+        res.json({success: true});
+    }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
