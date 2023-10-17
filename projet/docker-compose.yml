@@ -10,9 +10,11 @@ services:
       - 27017:27017
     volumes:
       - ./app/data:/data/db
+    networks:
+      - moviesnet
   
-  app:
-    build: ./app
+  app_backend:
+    build: ./backend/app
     restart: always
     environment:
       - 'PORT=3001'
@@ -20,5 +22,22 @@ services:
       - 3001:3001
     depends_on:
       - database
+    networks:
+      - moviesnet
+
+  app_frontend:
+    build: ./frontend/
+    restart: always
+  ports:
+      - 3001:3001
+  depends_on:
+    - app_backend
+  networks:
+    - moviesnet
+
+networks:
+  moviesnet:
+    driver: bridge 
+
 volumes:
   mongo-data:
