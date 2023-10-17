@@ -6,8 +6,27 @@ services:
             - "5000:5000"
         volumes:
             - ./app:/app
+        networks:
+            - mynetwork
         depends_on:
             - redis-container
 
     redis-container:
         image: redis
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ./certs:/etc/ssl/certs
+        networks:
+            - mynetwork
+        depends_on:
+            - web
+        restart: always
+networks:
+    mynetwork:
+        driver: bridge
