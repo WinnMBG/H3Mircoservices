@@ -2,11 +2,10 @@
 
 ## Sujet du projet: Catalogue de films
 
-Le projet ici sera orienté vers la création d'un catalogue de films très simple, qui va se composer principalement des 3 pages:
+Le projet ici sera orienté vers la création d'un catalogue de films très simple, qui va se composer principalement des 2 pages:
 - La page d'accueil, avec la barre de recherche et les résultats
 - La page des films favoris, qui contiendra les films aouté en favoris
-- Une page pour laisser un avis sur l'un des films, qui contiendra un formulaire.
-
+- 
 Il sera donc composé de 3 services: le front, le back et une BDD.
 Pour ce projet, l'archtecture sera orienté sous la forme de microservices. Chaque service ici sera conteneurisé grâce à Docker,
 et seront mis en communication avec le network docker. Ils seront ensuite pousser sur un container registry pour pouvoir avoir au final une version online.
