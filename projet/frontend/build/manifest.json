@@ -1,0 +1,28 @@
+{
+    "short_name": "AppCiné",
+    "name": "AppCiné",
+    "description": "Ciné App !",
+    "icons": [
+        {
+        "src": "./FreeImageResizer-R.png",
+        "type": "image/png",
+        "sizes": "192x192",
+        "purpose": "maskable"
+        },
+      {
+        "src": "./FreeImageResizer-R.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "./R.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/",
+    "display": "fullscreen",
+    "orientation": "portrait-primary",
+    "theme_color": "#eeeeee",
+    "background_color": "#eeeeee"
+  }

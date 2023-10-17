@@ -1,0 +1,23 @@
+{
+  "version": 3,
+  "file": "sw.js",
+  "sources": [
+    "../../../../AppData/Local/Temp/e0184bf1ac320a940b1e9f9b26d50569/sw.js"
+  ],
+  "sourcesContent": [
+    "import {precacheAndRoute as workbox_precaching_precacheAndRoute} from 'C:/Users/winn7/AppData/Roaming/nvm/v16.17.0/node_modules/workbox-cli/node_modules/workbox-precaching/precacheAndRoute.mjs';/**\n * Welcome to your Workbox-powered service worker!\n *\n * You'll need to register this file in your web app.\n * See https://goo.gl/nhQhGp\n *\n * The rest of the code is auto-generated. Please don't update this file\n * directly; instead, make changes to your Workbox build configuration\n * and re-run your build process.\n * See https://goo.gl/2aRDsh\n */\n\n\n\n\n\n\n\n\nself.addEventListener('message', (event) => {\n  if (event.data && event.data.type === 'SKIP_WAITING') {\n    self.skipWaiting();\n  }\n});\n\n\n\n\n/**\n * The precacheAndRoute() method efficiently caches and responds to\n * requests for URLs in the manifest.\n * See https://goo.gl/S9QRab\n */\nworkbox_precaching_precacheAndRoute([\n  {\n    \"url\": \"../src/App.js\",\n    \"revision\": \"4b570ba5fedc95afcdbc1d2847562615\"\n  },\n  {\n    \"url\": \"../src/components/Card.js\",\n    \"revision\": \"4a99f15c11bc51a9656edb57d6f7cca5\"\n  },\n  {\n    \"url\": \"../src/components/Form.js\",\n    \"revision\": \"930427f225e41cda8d9077c6696b8931\"\n  },\n  {\n    \"url\": \"../src/components/Header.js\",\n    \"revision\": \"79aa0b72278f2fa0b081c1b28b5bc602\"\n  },\n  {\n    \"url\": \"../src/img/poster.jpg\",\n    \"revision\": \"b707ca8d553c5a3cde980539eb8948e3\"\n  },\n  {\n    \"url\": \"../src/index.js\",\n    \"revision\": \"4d7a54b7ad107c38a823925433a3e5d4\"\n  },\n  {\n    \"url\": \"../src/pages/Home.js\",\n    \"revision\": \"e5afdd681594b53692ddcf14d33d6e4a\"\n  },\n  {\n    \"url\": \"../src/pages/UserList.js\",\n    \"revision\": \"897dcff22809b96ef6a3e12f926c6b24\"\n  },\n  {\n    \"url\": \"../src/styles/_settings.scss\",\n    \"revision\": \"1b1edcf02da6a2d7ad3a7980abb96bb3\"\n  },\n  {\n    \"url\": \"../src/styles/components/_card.scss\",\n    \"revision\": \"25a57e682868743814f584f027c5310e\"\n  },\n  {\n    \"url\": \"../src/styles/components/_form.scss\",\n    \"revision\": \"bcd7a8ea8a28df2188731d75bdd2c25a\"\n  },\n  {\n    \"url\": \"../src/styles/components/_header.scss\",\n    \"revision\": \"df1fa504baac916c9129f5e8e70bee11\"\n  },\n  {\n    \"url\": \"../src/styles/index.scss\",\n    \"revision\": \"c5618795ff26bd1f745f886123aae8be\"\n  },\n  {\n    \"url\": \"../src/styles/pages/_home.scss\",\n    \"revision\": \"e221545e1a9346aa759717bfa3196de7\"\n  },\n  {\n    \"url\": \"../src/styles/pages/_userList.scss\",\n    \"revision\": \"1991d26000266caadcfab109f19ac208\"\n  }\n], {\n  \"ignoreURLParametersMatching\": [/^utm_/, /^fbclid$/]\n});\n\n\n\n\n\n\n\n\n"
+  ],
+  "names": [
+    "self",
+    "addEventListener",
+    "event",
+    "data",
+    "type",
+    "skipWaiting",
+    "workbox_precaching_precacheAndRoute",
+    "url",
+    "revision",
+    "ignoreURLParametersMatching"
+  ],
+  "mappings": "0nBAmBAA,KAAKC,iBAAiB,WAAYC,IAC5BA,EAAMC,MAA4B,iBAApBD,EAAMC,KAAKC,MAC3BJ,KAAKK,aACP,IAWFC,EAAAA,iBAAoC,CAClC,CACEC,IAAO,SACPC,SAAY,oCAEd,CACED,IAAO,qBACPC,SAAY,oCAEd,CACED,IAAO,qBACPC,SAAY,oCAEd,CACED,IAAO,uBACPC,SAAY,oCAEd,CACED,IAAO,iBACPC,SAAY,oCAEd,CACED,IAAO,WACPC,SAAY,oCAEd,CACED,IAAO,gBACPC,SAAY,oCAEd,CACED,IAAO,oBACPC,SAAY,oCAEd,CACED,IAAO,wBACPC,SAAY,oCAEd,CACED,IAAO,+BACPC,SAAY,oCAEd,CACED,IAAO,+BACPC,SAAY,oCAEd,CACED,IAAO,iCACPC,SAAY,oCAEd,CACED,IAAO,oBACPC,SAAY,oCAEd,CACED,IAAO,0BACPC,SAAY,oCAEd,CACED,IAAO,8BACPC,SAAY,qCAEb,CACDC,4BAA+B,CAAC,QAAS"
+}
