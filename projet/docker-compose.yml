@@ -35,9 +35,29 @@ services:
   networks:
     - moviesnet
 
+  prometheus:
+    image: prom/prometheus:v2.21.0
+    ports:
+      - 9000:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:7.5.7
+    ports:
+      - 3002:3002
+    restart: unless-stopped
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - grafana-data:/var/lib/grafana
+  
 networks:
   moviesnet:
     driver: bridge 
 
 volumes:
   mongo-data:
+  prometheus-data:
+  grafana-data:

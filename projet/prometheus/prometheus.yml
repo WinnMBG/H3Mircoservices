@@ -1,0 +1,7 @@
+global:
+    scrape_interval: 5s
+
+scrape_configs:
+    - job_name: 'micro_backend'
+      static_configs:
+          - targets: ['micro_backend:3001']
