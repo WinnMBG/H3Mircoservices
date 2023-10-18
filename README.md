@@ -38,3 +38,11 @@ Les technologies utilisés afin de réaliser ce projet seront les suivantes:
 - Back-end: Node.js
 - BDD: MongoDB
 J'ai chosi ces technos la en particulier car ce sont celles avec lequel j'ai le plus d'affinité et notamment pour le choix de la BDD MongoDB car c'est une BDD NoSQL orienté documents qui offre beaucoup plus de flexibilité dans la construction de ceux-ci.
+
+## Build docker images et push sur azure container registry
+
+![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/906821a6-adb5-4899-808c-8e297123fcf3)
+
+![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/b6a7740b-585c-44e7-8a5f-10dfb9a0792f)
+
+
