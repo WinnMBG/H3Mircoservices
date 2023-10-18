@@ -9,7 +9,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./app/data:/data/db
+      - ./backend/app/data:/data/db
     networks:
       - moviesnet
   
@@ -29,7 +29,7 @@ services:
     build: ./frontend/
     restart: always
   ports:
-      - 3001:3001
+      - 3000:3000
   depends_on:
     - app_backend
   networks:
