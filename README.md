@@ -46,7 +46,7 @@ J'ai chosi ces technos la en particulier car ce sont celles avec lequel j'ai le 
 
 ![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/b6a7740b-585c-44e7-8a5f-10dfb9a0792f)
 
-Online version of the project : [link](https://testemicrosservice.netlify.app/)
+Online version of the project : [https://testemicrosservice.netlify.app/](https://testemicrosservice.netlify.app/)
 
 ## Comment lancer le projet localement
 
@@ -55,7 +55,7 @@ Online version of the project : [link](https://testemicrosservice.netlify.app/)
    - docker pull h3microservices.azurecr.io/micro_backend
 2) Récupérer le docker compose donc ce repot git (dans le dossier projet)
 3) lancer la commande docker compose up -d
-4) le projet est donc accessible sur : [link](http://localhost:3000)
-5) les différents endpoints de l'api seront accessible sur : [link](http://localhost:3001/api-docs)
+4) le projet est donc accessible sur : [http://localhost:3000](http://localhost:3000)
+5) les différents endpoints de l'api seront accessible sur : [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
 
 
