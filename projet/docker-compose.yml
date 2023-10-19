@@ -28,12 +28,12 @@ services:
   app_frontend:
     build: ./frontend/
     restart: always
-  ports:
-      - 3000:3000
-  depends_on:
-    - app_backend
-  networks:
-    - moviesnet
+    ports:
+        - 3000:3000
+    depends_on:
+      - app_backend
+    networks:
+      - moviesnet
 
   prometheus:
     image: prom/prometheus:v2.21.0
