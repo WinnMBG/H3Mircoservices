@@ -34,8 +34,20 @@ $ const Film = {
 ## Technologies utilisés
 
 Les technologies utilisés afin de réaliser ce projet seront les suivantes:
-- Front-end : React.js
-- Back-end: Node.js
+- Front-end : React.js, pourquoi ?
+  - **Composants réutilisables** : React permet de créer des composants réutilisables, ce qui simplifie le développement et la maintenance de l'interface utilisateur. Les composants peuvent être assemblés pour créer des interfaces plus complexes.
+
+  - **Virtual DOM** : React utilise un Virtual DOM pour améliorer les performances. Il compare l'état actuel du DOM avec une représentation virtuelle avant de mettre à jour réellement le DOM, ce qui réduit les opérations coûteuses de manipulation du DOM et améliore les performances.
+
+  - **Mise à jour efficace** : Grâce à sa gestion efficace du rendu et à la mise en œuvre du Virtual DOM, React ne met à jour que les parties du DOM qui ont réellement changé, ce qui minimise le temps de rendu et améliore la réactivité de l'application.
+
+- Back-end: Node.js, pourquoi ?
+  - **JavaScript unifié** : Node.js permet aux développeurs d'utiliser JavaScript aussi bien côté client que côté serveur, ce qui simplifie la création d'applications full-stack. Il évite la nécessité d'apprendre un autre langage pour le backend.
+
+  - **Haute performance** : Node.js est conçu pour être non bloquant et basé sur un modèle d'E/S asynchrone. Cela signifie qu'il peut gérer de nombreuses connexions simultanées de manière efficace, ce qui le rend idéal pour les applications en temps réel, telles que les applications de chat, de jeux en ligne et les applications de streaming.
+
+  - **Évolutif** : Node.js peut facilement être mis à l'échelle horizontalement en ajoutant davantage de nœuds, ce qui permet de gérer un trafic plus important.
+    
 - BDD: MongoDB
 J'ai chosi ces technos la en particulier car ce sont celles avec lequel j'ai le plus d'affinité et notamment pour le choix de la BDD MongoDB car c'est une BDD NoSQL orienté documents qui offre beaucoup plus de flexibilité dans la construction de ceux-ci.
 
@@ -46,16 +58,24 @@ J'ai chosi ces technos la en particulier car ce sont celles avec lequel j'ai le 
 
 ![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/b6a7740b-585c-44e7-8a5f-10dfb9a0792f)
 
-Online version of the project : [https://testemicrosservice.netlify.app/](https://testemicrosservice.netlify.app/)
+
+**Version en ligne du projet** : [https://testemicrosservice.netlify.app/](https://testemicrosservice.netlify.app/)
 
 ## Comment lancer le projet localement
 
-1) Récupérer les images disponible sur Azure container registry :
-   - docker pull h3microservices.azurecr.io/micro_frontend
-   - docker pull h3microservices.azurecr.io/micro_backend
+1) Récupérer les images disponible sur Azure container registry ou bien sur Docker Hub (le cas échéant) :
+   - docker pull h3microservices.azurecr.io/micro_frontend or docker pull winnmbg/micro_frontend
+   - docker pull h3microservices.azurecr.io/micro_backend or docker pull winn/micro_frontend
 2) Récupérer le docker compose donc ce repot git (dans le dossier projet)
 3) lancer la commande docker compose up -d
 4) le projet est donc accessible sur : [http://localhost:3000](http://localhost:3000)
 5) les différents endpoints de l'api seront accessible sur : [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+
+Voici l'interface obtenu en allant sur cet URL :
+
+![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/8acf9c20-81e9-4632-b8cd-77bf201f6dc1)
+
+Il y a une documentation swagger avec tous les endpoints utilisés poour construire l'API (qui est très simpliste comme vous pouvez le constater)
+Les requêtes seront effectuées quant à elles, au niveau du **port 3001** qui sera mis à disposition au niveau de l'application globale (grâce au conteneur s'occupant du backend).
 
 
