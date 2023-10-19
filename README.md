@@ -1,5 +1,7 @@
 # H3Mircoservices (Rapport Projet)
 
+# /!\ L'ensemble du projet se situe dans le repertoire projet de ce repot Github, (front + back)
+
 ## Sujet du projet: Catalogue de films
 
 Le projet ici sera orienté vers la création d'un catalogue de films très simple, qui va se composer principalement des 2 pages:
