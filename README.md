@@ -1,6 +1,6 @@
 # H3Mircoservices (Rapport Projet)
 
-# /!\ L'ensemble du projet se situe dans le repertoire projet de ce repot Github, (front + back)
+### /!\ L'ensemble du projet se situe dans le repertoire projet de ce repot Github, (front + back)
 
 ## Sujet du projet: Catalogue de films
 
