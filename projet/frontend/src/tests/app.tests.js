@@ -12,7 +12,9 @@ test('renders the counter app', () => {
 
 test('adding a film to the favoritesr', () => {
   const { getByTestId } = render(<App />);
-  const incrementButton = getByTestId('add-to-favorite');
+  const favButton = getByTestId('add-to-favorite');
+
+  fireEvent.click(favButton);
   
   const sortDesc = getByTestId('flop');
   const sortAsc = getByTestId('top')
