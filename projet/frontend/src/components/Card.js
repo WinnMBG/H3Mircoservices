@@ -107,10 +107,10 @@ const Card = ({ mov, _id }) => {
             {mov.overview ? <h3>Synopsis</h3> : ""}
             <p>{mov.overview}</p>
             {window.location.pathname !== '/coup-de-coeur' ? 
-            (<div className="btn" onClick={() => addStorage()}>
+            (<div className="btn" data-testid="add-to-favorite" onClick={() => addStorage()}>
                 Ajouter aux favoris
             </div>) : 
-            <div className="btn" onClick={() => deleteStorage(_id)}>Supprimer de la liste</div>}
+            <div className="btn" data-testid="delete-of-favorite" onClick={() => deleteStorage(_id)}>Supprimer de la liste</div>}
         </div>
     );
 }

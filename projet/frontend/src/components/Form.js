@@ -23,10 +23,10 @@ const Form = () => {
                 </form>
 
                 <div className="btn-sort-container">
-                    <div className="btn-sort" id="goodToBad" onClick={() => setSortGB("goodToBad")}>
+                    <div className="btn-sort" data-testid="top" id="goodToBad" onClick={() => setSortGB("goodToBad")}>
                         Top<span>→</span>
                     </div>
-                    <div className="btn-sort" id="badToGood" onClick={() => setSortGB("badToGood")}>
+                    <div className="btn-sort" data-testid="flop" id="badToGood" onClick={() => setSortGB("badToGood")}>
                         Flop<span>→</span>
                     </div>
                 </div>
