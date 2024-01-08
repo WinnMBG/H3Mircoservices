@@ -77,6 +77,13 @@ Voici l'interface obtenu en allant sur cet URL :
 
 ![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/8acf9c20-81e9-4632-b8cd-77bf201f6dc1)
 
+# Prométheus
+
+Voici un graphique obtenu après avoir lancé l'application:
+
+![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/111c7e8f-e9d3-4f71-be25-0dad9fe47a5f)
+
+
 Il y a une documentation swagger avec tous les endpoints utilisés poour construire l'API (qui est très simpliste comme vous pouvez le constater)
 Les requêtes seront effectuées quant à elles, au niveau du **port 3001** qui sera mis à disposition au niveau de l'application globale (grâce au conteneur s'occupant du backend).
 
