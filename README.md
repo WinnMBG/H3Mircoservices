@@ -15,7 +15,8 @@ En fonction, des contraintes de temps que nous aurons, j'aurais peut être l'occ
 
 ## Architecture globale du projet
 
-![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/42cbe70a-1e14-4091-9674-4fb6618fa47f)
+![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/49396941-b68a-4112-98b5-642cc12e6990)
+
 
 Mon architecture pour ce projet va reposer essentiellement sur des services développés chacun dans des conteneurs Docker et mis en relation par le docker compose. Tout cela est effectué toujours dans un souci de flexibilité, d'élasticité et de la facilité de déploiement sur un cloud type Azure.
 Le schéma de données principal est celui de l'objet Film qui est défini comme tel ci dessous: 
