@@ -5,6 +5,10 @@ import Header from "../components/Header";
 import { useDispatch, useSelector } from 'react-redux'
 import { getFilmsFavorite } from "../redux/actions/films";
 
+/**
+ * 
+ * @returns the user favorites list.
+ */
 const UserList = () => {
     const dispatch = useDispatch();
     const moviesFav = useSelector(state => state.films.films)

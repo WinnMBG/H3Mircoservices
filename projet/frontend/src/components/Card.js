@@ -2,6 +2,10 @@ import React from "react";
 import { addFilm, deleteFilm } from "../redux/actions/films";
 import { useDispatch } from "react-redux";
 
+/**
+ * 
+ * Main card movie component
+ */
 const Card = ({ mov, _id }) => {
     const dispatch = useDispatch()
     const dateFormater = (date) => {

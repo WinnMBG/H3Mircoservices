@@ -1,6 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+
+/**
+ * 
+ * Header movie component
+ */
 const Header = () => {
     return (
        <div className="header">
