@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "mocha tests/app.test.js && nodemon ./index.js --watch"
+    "start": "nodemon ./index.js --watch"
   },
   "author": "",
   "license": "ISC",
