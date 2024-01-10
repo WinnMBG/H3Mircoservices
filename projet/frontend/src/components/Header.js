@@ -1,4 +1,3 @@
-import { SignInButton } from "@clerk/clerk-react";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -15,12 +14,12 @@ const Header = () => {
                 <NavLink to="/" className={(nav) => (nav.isActive ? "nav-active" : "")}>
                     <li>Accueil</li>
                 </NavLink>
-                {/* <NavLink to="/coup-de-coeur" className={(nav) => (nav.isActive ? "nav-active" : "")}>
+                <NavLink to="/coup-de-coeur" className={(nav) => (nav.isActive ? "nav-active" : "")}>
                     <li>Coup de Coeur</li>
-                </NavLink> */}
-                <li>
-                    <SignInButton afterSignInUrl="/coup-de-coeur"/>
-                </li>
+                </NavLink>
+                <NavLink to="/login" className={(nav) => (nav.isActive ? "nav-active" : "")}>
+                    <li>Se connecter</li>
+                </NavLink>
             </ul>
         </nav>
         <h1>CinéDuRaT</h1>
