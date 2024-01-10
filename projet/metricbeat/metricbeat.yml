@@ -1,0 +1,9 @@
+metricbeat.modules:
+- module: docker
+  metricsets:
+    - container
+    - cpu
+    - diskio
+    - memory
+    - network
+  hosts: ["unix:///var/run/docker.sock"]

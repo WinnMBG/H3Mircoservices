@@ -1,62 +1,62 @@
 version: '3.8'
 services:
-  database:
-    image: mongo:latest
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: winn
-      MONGO_INITDB_ROOT_PASSWORD: password
-    ports:
-      - 27017:27017
-    volumes:
-      - ./backend/app/data:/data/db
-    networks:
-      - moviesnet
+  # database:
+  #   image: mongo:latest
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: winn
+  #     MONGO_INITDB_ROOT_PASSWORD: password
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - ./backend/app/data:/data/db
+  #   networks:
+  #     - moviesnet
   
-  app_backend:
-    build: ./backend/app
-    restart: always
-    environment:
-      - 'PORT=3001'
-    ports:
-      - 3001:3001
-    depends_on:
-      - database
-    networks:
-      - moviesnet
-    healthcheck:
-      test: curl --fail http://localhost:3001/films || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 20s
-      timeout: 10s
+  # app_backend:
+  #   build: ./backend/app
+  #   restart: always
+  #   environment:
+  #     - 'PORT=3001'
+  #   ports:
+  #     - 3001:3001
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - moviesnet
+  #   healthcheck:
+  #     test: curl --fail http://localhost:3001/films || exit 1
+  #     interval: 60s
+  #     retries: 5
+  #     start_period: 20s
+  #     timeout: 10s
 
-  app_frontend:
-    build: ./frontend/
-    restart: always
-    environment:
-      - 'REACT_APP_API_URL=http://localhost:3001/'
-    ports:
-      - 3000:3000
-    depends_on:
-      - app_backend
-    networks:
-      - moviesnet
-    healthcheck:
-      test: curl --fail http://localhost:3000 || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 20s
-      timeout: 10s
+  # app_frontend:
+  #   build: ./frontend/
+  #   restart: always
+  #   environment:
+  #     - 'REACT_APP_API_URL=http://localhost:3001/'
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - app_backend
+  #   networks:
+  #     - moviesnet
+  #   healthcheck:
+  #     test: curl --fail http://localhost:3000 || exit 1
+  #     interval: 60s
+  #     retries: 5
+  #     start_period: 20s
+  #     timeout: 10s
 
-  prometheus:
-    image: prom/prometheus:v2.21.0
-    ports:
-      - 9000:9090
-    volumes:
-      - ./prometheus:/etc/prometheus
-      - prometheus-data:/prometheus
-    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+  # prometheus:
+  #   image: prom/prometheus:v2.21.0
+  #   ports:
+  #     - 9000:9090
+  #   volumes:
+  #     - ./prometheus:/etc/prometheus
+  #     - prometheus-data:/prometheus
+  #   command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
   
   # reverse_proxy_client:
   #   image: nginx
@@ -82,19 +82,17 @@ services:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ports:
       - '9200:9200'
+      - '9300:9300'
     networks:
       - moviesnet
     restart: on-failure
    
   logstash:
     image: docker.elastic.co/logstash/logstash:8.11.3
-    container_name: h3micro_logstash
+    container_name: micro_logstash
     ports:
       - '9600:9600'
-      - '8089:8089'
-      - '5044:5044'
     volumes:
-      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     environment:
       xpack.monitoring.enabled: 'true'
@@ -102,27 +100,45 @@ services:
       - moviesnet
     restart: on-failure
     depends_on:
-      - elasticsearch_container
+      - elasticsearch
 
-    kibana:
-      image: kibana:8.11.3
-      container_name: kibana
-      # volumes:
-      #     - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
-      environment:
-          - ELASTICSEARCH_HOSTS=http://elasticsearch_container:9200
-      ports:
-          - '5601:5601'
-      networks:
-          - moviesnet
-      depends_on:
-          - elasticsearch_container
+  kibana:
+    image: kibana:8.11.3
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch_container:9200
+      - xpack.fleet.agents.enabled=false
+    ports:
+      - '5601:5601'
+    networks:
+      - moviesnet
+    depends_on:
+      - elasticsearch
+  
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:8.11.3
+    container_name: metricbeat
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+    command: ["-e", "--strict.perms=false"]
+    depends_on:
+      - elasticsearch    # volumes:
+    #     - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch_container:9200
+      KIBANA_HOST: http://kibana:5601
+      SETUP_KIBANA_HOST: "kibana:5601"
+    networks:
+      - moviesnet
           
 networks:
   moviesnet:
     driver: bridge
 
-volumes:
-  mongo-data:
-  prometheus-data:
-  grafana-data:
+# volumes:
+  # mongo-data:
+  # prometheus-data:
+  # grafana-data:
