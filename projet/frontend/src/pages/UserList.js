@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from 'react-redux'
 import { getFilmsFavorite } from "../redux/actions/films";
+import { SignOutButton } from "@clerk/clerk-react";
 
 /**
  * 
