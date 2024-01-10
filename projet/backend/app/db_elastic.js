@@ -4,16 +4,8 @@ const {Client} = elastic
 const connectDBElastic = async () => {
   try {
     // Create an Elasticsearch client
-    const esClient = new Client({ node: "http://localhost:9200/" });
-
-    // Test the connection
-    esClient.ping({ requestTimeout: 30000 }, (error) => {
-      if (error) {
-        console.error("Elasticsearch cluster is down!");
-      } else {
-        console.log("Connected to Elasticsearch");
-      }
-    });
+    const esClient = new Client({ node: "http://localhost:9200" });
+    return esClient
   } catch (e) {
     console.log(e.message);
     process.exit(1)

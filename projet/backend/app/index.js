@@ -1,10 +1,10 @@
-import express, {json, urlencoded} from "express";
+import express, { json, urlencoded } from "express";
 import cors from "cors";
 import connectDB from "./db.js";
-import connectDBElastic from './db_elastic.js'
+import connectDBElastic from "./db_elastic.js";
 import Film from "./films.js";
-import dotenv from 'dotenv'
-import swaggerJsdoc from "swagger-jsdoc"
+import dotenv from "dotenv";
+import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
 /**
@@ -42,53 +42,49 @@ import swaggerUi from "swagger-ui-express";
  *            description: the film vote average
  */
 
-dotenv.config()
+dotenv.config();
 
 const app = express();
 
 var corsOptions = {
-  origin: "*"
+  origin: "*",
 };
 
 // connectDB();
-connectDBElastic();
+const client_el = await connectDBElastic();
 app.use(cors(corsOptions));
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
 //Swagger configuration
 const options = {
-    definition: {
-      openapi: "3.1.0",
-      info: {
-        title: "Express API with Swagger",
-        version: "0.1.0",
-        description:
-          "This is a simple CRUD API application made with Express and documented with Swagger",
-        license: {
-          name: "MIT",
-          url: "https://spdx.org/licenses/MIT.html",
-        },
-        contact: {
-          name: "WinnMBG",
-          email: "winn77.m@hotmail.com",
-        },
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "Express API with Swagger",
+      version: "0.1.0",
+      description:
+        "This is a simple CRUD API application made with Express and documented with Swagger",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
       },
-      servers: [
-        {
-          url: "http://localhost:3001/",
-        },
-      ],
+      contact: {
+        name: "WinnMBG",
+        email: "winn77.m@hotmail.com",
+      },
     },
-    apis: ["./index.js"],
-  };
-  
-  const specs = swaggerJsdoc(options);
-  app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(specs)
-  );
+    servers: [
+      {
+        url: "http://localhost:3001/",
+      },
+    ],
+  },
+  apis: ["./index.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // simple route
 
@@ -147,36 +143,129 @@ const options = {
  *       404:
  *         description: The book was not found
  */
-app.get("/films", async (req, res) => {
-    try{
-        const films = await Film.find()
-        res.json(films)
-    }  catch(error) {
-        res.status(500).send(error.message)
-    }
-  });
 
-  app.post('/film', async (req, res) => {      try {
-        const {poster_path, title, release_date, overview, id, vote_average, genre_ids} = req.body;
-        const film = new Film({poster_path, title, release_date, overview, id, vote_average, genre_ids});
-        const f = await film.save();
-        res.json(f);
-    }
-    catch (error) {
-        res.status(500).send(error.message);
-    }
+app.post("/index", async (req, res) => {
+  try {
+    const resp = await client_el.indices.create({ index: "films" });
+    res.status(200).send(resp);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
 });
 
+app.get("/index", async (req, res) => {
+  try {
+    const resp = await client_el.indices.get({
+      index: "films",
+    });
+    res.status(200).send(resp);
+  } catch (e) {
+    console.log(e.message);
+  }
+});
 
-app.delete('/film/:id', async (req, res) => {  
-    try {
-        const film = await Film.deleteOne({_id: req.params.id});
-        if (!film) throw new Error('Film not found');
-        res.json({message: 'Film deleted', success: true, id: req.params.id});
-    }
-    catch (error) {
-        res.status(500).send(error.message);
-    }
+app.get("/films", async (req, res) => {
+  try {
+    const films = await Film.find();
+    res.json(films);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+/* Equivalent avec elastic*/
+app.get("/films", async (req, res) => {
+  try {
+    const films = await client_el.get({
+      index: "films",
+    });
+    res.json(films);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post("/film", async (req, res) => {
+  try {
+    const {
+      poster_path,
+      title,
+      release_date,
+      overview,
+      id,
+      vote_average,
+      genre_ids,
+    } = req.body;
+    const film = new Film({
+      poster_path,
+      title,
+      release_date,
+      overview,
+      id,
+      vote_average,
+      genre_ids,
+    });
+    const f = await film.save();
+    res.json(f);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+/* Equivalent avec elastic*/
+app.post("/film", async (req, res) => {
+  try {
+    const {
+      poster_path,
+      title,
+      release_date,
+      overview,
+      id,
+      vote_average,
+      genre_ids,
+    } = req.body;
+    const film = await client_el.index({
+      index: "films",
+      id: `${id}`,
+      document: {
+        poster_path,
+        title,
+        release_date,
+        overview,
+        id,
+        vote_average,
+        genre_ids,
+      },
+    });
+    res.status(200).send(film);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.delete("/film/:id", async (req, res) => {
+  try {
+    const film = await Film.deleteOne({ _id: req.params.id });
+    if (!film) throw new Error("Film not found");
+    res.json({ message: "Film deleted", success: true, id: req.params.id });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+/* Equivalent avec elastic*/
+
+app.delete("/film/:id", async (req, res) => {
+  try {
+    const film = await client.delete({
+      index: "films",
+      id: `${req.params.id}`,
+    });
+    if (!film) throw new Error("Film not found");
+    res.json({ message: "Film deleted", success: true, id: req.params.id });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 const PORT = process.env.PORT || 8080;
