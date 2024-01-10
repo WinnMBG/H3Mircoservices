@@ -99,24 +99,25 @@ services:
     environment:
       xpack.monitoring.enabled: 'true'
     networks:
-      - h3micronetwork
+      - moviesnet
     restart: on-failure
     depends_on:
       - elasticsearch_container
 
-    # kibana:
-    #     image: kibana:8.11.3
-    #     container_name: kibana
-    #     # volumes:
-    #     #     - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
-    #     environment:
-    #         - ELASTICSEARCH_HOSTS=http://h3micro_elasticsearch:9200
-    #     ports:
-    #         - '5601:5601'
-    #     networks:
-    #         - h3micronetwork
-    #     depends_on:
-    #         - elasticsearch_container
+    kibana:
+      image: kibana:8.11.3
+      container_name: kibana
+      # volumes:
+      #     - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      environment:
+          - ELASTICSEARCH_HOSTS=http://elasticsearch_container:9200
+      ports:
+          - '5601:5601'
+      networks:
+          - moviesnet
+      depends_on:
+          - elasticsearch_container
+          
 networks:
   moviesnet:
     driver: bridge
