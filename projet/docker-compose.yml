@@ -58,35 +58,68 @@ services:
       - prometheus-data:/prometheus
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
   
-  reverse_proxy_client:
-    image: nginx
-    container_name: nginx_client
+  # reverse_proxy_client:
+  #   image: nginx
+  #   container_name: nginx_client
+  #   ports:
+  #     - '800:800'
+  #     - '444:444'
+  #   volumes:
+  #     - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./proxy/certificates/ssl:/etc/nginx/ssl
+  #   depends_on:
+  #     - app_frontend
+  #   networks:
+  #     - h3micronetwork
+  #   restart: on-failure:3
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: elasticsearch_container
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ports:
-      - '800:800'
-      - '444:444'
+      - '9200:9200'
+    networks:
+      - moviesnet
+    restart: on-failure
+   
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.3
+    container_name: h3micro_logstash
+    ports:
+      - '9600:9600'
+      - '8089:8089'
+      - '5044:5044'
     volumes:
-      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
-      - ./proxy/certificates/ssl:/etc/nginx/ssl
-    depends_on:
-      - app_frontend
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      xpack.monitoring.enabled: 'true'
     networks:
       - h3micronetwork
-    restart: on-failure:3
+    restart: on-failure
+    depends_on:
+      - elasticsearch_container
 
-  grafana:
-    image: grafana/grafana:7.5.7
-    ports:
-      - 3002:3002
-    restart: unless-stopped
-    volumes:
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-      - grafana-data:/var/lib/grafana
-  
+    # kibana:
+    #     image: kibana:8.11.3
+    #     container_name: kibana
+    #     # volumes:
+    #     #     - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    #     environment:
+    #         - ELASTICSEARCH_HOSTS=http://h3micro_elasticsearch:9200
+    #     ports:
+    #         - '5601:5601'
+    #     networks:
+    #         - h3micronetwork
+    #     depends_on:
+    #         - elasticsearch_container
 networks:
   moviesnet:
     driver: bridge
-  h3micronetwork:
-    driver: bridge 
 
 volumes:
   mongo-data:

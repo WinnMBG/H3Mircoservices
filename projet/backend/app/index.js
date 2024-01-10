@@ -1,6 +1,7 @@
 import express, {json, urlencoded} from "express";
 import cors from "cors";
 import connectDB from "./db.js";
+import connectDBElastic from './db_elastic.js'
 import Film from "./films.js";
 import dotenv from 'dotenv'
 import swaggerJsdoc from "swagger-jsdoc"
@@ -49,7 +50,8 @@ var corsOptions = {
   origin: "*"
 };
 
-connectDB();
+// connectDB();
+connectDBElastic();
 app.use(cors(corsOptions));
 app.use(json());
 app.use(urlencoded({ extended: true }));
