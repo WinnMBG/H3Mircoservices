@@ -1,9 +1,66 @@
 metricbeat.modules:
-- module: docker
-  metricsets:
-    - container
-    - cpu
-    - diskio
-    - memory
-    - network
-  hosts: ["unix:///var/run/docker.sock"]
+
+  - module: system
+    metricsets:
+      - cpu             # CPU usage
+      - load            # CPU load averages
+      - memory          # Memory usage
+      - network         # Network IO
+      - process         # Per process metrics
+      - process_summary # Process summary
+      - uptime          # System Uptime
+      - socket_summary  # Socket summary
+    enabled: true
+    period: 10s
+    processes: ['.*']
+
+  - module: docker
+    metricsets:
+      - container
+      - cpu
+      - diskio
+      - memory
+      - network
+    hosts: ["unix:///var/run/docker.sock"]
+  
+  - module: elasticsearch
+    metricsets:
+      - node
+      - node_stats
+      - index
+      - index_recovery
+      - index_summary
+      - ingest_pipeline
+      - shard
+      - ml_job
+    period: 10s
+    hosts: ["http://elasticsearch_container:9200"]
+
+# Metricbeat can export internal metrics to a central Elasticsearch monitoring
+# cluster.  This requires xpack monitoring to be enabled in Elasticsearch.  The
+# reporting is disabled by default.
+
+# Set to true to enable the monitoring reporter.
+monitoring.enabled: true
+
+# Uncomment to send the metrics to Elasticsearch. Most settings from the
+# Elasticsearch output are accepted here as well.
+# Note that the settings should point to your Elasticsearch *monitoring* cluster.
+# Any setting that is not set is automatically inherited from the Elasticsearch
+# output configuration, so if you have the Elasticsearch output configured such
+# that it is pointing to your Elasticsearch monitoring cluster, you can simply
+# uncomment the following line.
+monitoring.elasticsearch:
+
+  # Array of hosts to connect to.
+  # Scheme and port can be left out and will be set to the default (http and 9200)
+  # In case you specify an additional path, the scheme is required: http://localhost:9200/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+  hosts: ["localhost:9200"]
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch_container:9200"] ## Monitoring cluster
+  # Optional protocol and basic auth credentials.
+  #protocol: "https"
+  #username: "elastic"
+  #password: "changeme"
