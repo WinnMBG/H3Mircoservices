@@ -25,7 +25,8 @@ services:
   #   networks:
   #     - moviesnet
   #   healthcheck:
-  #     test: curl --fail http://localhost:3001/films || exit 1
+  #     test: curl --fail http://localhost:3001/films || exit 1 curl http://0.0.0.0:9200/_cat/indices?v
+
   #     interval: 60s
   #     retries: 5
   #     start_period: 20s
@@ -87,6 +88,12 @@ services:
       - '9300:9300'
     networks:
       - moviesnet
+    healthcheck:
+      test: curl --fail http://elasticsearch_container:9200/ || exit 1 
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
     restart: on-failure
    
   logstash:
@@ -95,14 +102,22 @@ services:
     ports:
       - '9600:9600'
     volumes:
-      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./datatest/data-json.log:/usr/share/logstash/external-data/data-json.log
-    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+      - ./datatest/:/usr/share/logstash/external-data/
+      - ./logstash/pipeline/:/usr/share/logstash/pipeline
+      - ./logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+    # command: logstash -f /usr/share/logstash/pipeline/logstash.conf
     environment:
+      LS_SETTINGS_DIR: /usr/share/logstash/config
       xpack.monitoring.enabled: 'true'
     networks:
       - moviesnet
     restart: on-failure
+    healthcheck:
+      test: curl --fail http://elasticsearch_container:9200/_cat/indices?v || exit 1 
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
     depends_on:
       - elasticsearch
 
@@ -116,8 +131,26 @@ services:
       - '5601:5601'
     networks:
       - moviesnet
+    healthcheck:
+      test: curl --fail http://kibana:5601/ || exit 1 
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
     depends_on:
       - elasticsearch
+  
+  filebeat:
+  image: docker.elastic.co/beats/filebeat:8.11.3
+  container_name: filebeat
+  volumes:
+    - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    - ./logs:/logs
+  networks:
+    - moviesnet
+  depends_on:
+    - logstash
+    - elasticsearch
   
   metricbeat:
     image: docker.elastic.co/beats/metricbeat:8.11.3
