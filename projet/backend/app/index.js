@@ -6,6 +6,7 @@ import Film from "./films.js";
 import dotenv from "dotenv";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import * as bcrypt from "bcrypt";
 
 /**
  * @swagger
@@ -265,6 +266,42 @@ app.delete("/film/:id", async (req, res) => {
     res.json({ message: "Film deleted", success: true, id: req.params.id });
   } catch (error) {
     res.status(500).send(error.message);
+  }
+});
+const users = [];
+
+app.get("/users", (req, res) => {
+  res.json(users);
+});
+
+app.post("/users", async (req, res) => {
+  try {
+    let { identifiant, password } = req.body;
+    const salt = await bcrypt.genSalt();
+    const hashedPass = await bcrypt.hash(password, salt);
+    users.push({ identifiant, hashedPass, hash: salt });
+    res.status(201).send(users);
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+  // res.status(201).send(users)
+});
+
+app.post("/user/login", async (req, res) => {
+  const user = users.find((user) => user.identifiant === req.body.identifiant);
+  if (user == null) {
+    return res.status(400).send("Cannot find user");
+  }
+  try {
+    const hashedPass = await bcrypt.hash(req.body.password, user.hash)
+    console.log(hashedPass, user.hashedPass)
+    if (hashedPass === user.hashedPass) {
+      res.status(201).send({message: "Login Succeded", data: {name: user.identifiant}});
+    } else {
+      res.status(401).send("Login Failed");
+    }
+  } catch (e) {
+    res.status(500).send(e.message);
   }
 });
 
