@@ -13,9 +13,9 @@ const UserList = () => {
   const dispatch = useDispatch();
   const moviesFav = useSelector((state) => state.films.films);
 
-  useEffect(() => {
-    dispatch(getFilmsFavorite());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getFilmsFavorite());
+  // }, [dispatch]);
 
   return (
     <div className="user-list-page">
