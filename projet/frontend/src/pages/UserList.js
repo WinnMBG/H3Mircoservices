@@ -9,7 +9,7 @@ import { getFilmsFavorite } from "../redux/actions/films";
  *
  * @returns the user favorites list.
  */
-const UserList = () => {
+const UserList = ({logged, setLogged}) => {
   const dispatch = useDispatch();
   const moviesFav = useSelector((state) => state.films.films);
 
@@ -19,7 +19,7 @@ const UserList = () => {
 
   return (
     <div className="user-list-page">
-      <Header />
+      <Header logged={logged} setLogged={setLogged}/>
       <h2>
         Favoris<span>❤️</span>
       </h2>

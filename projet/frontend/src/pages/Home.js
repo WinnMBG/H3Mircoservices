@@ -2,10 +2,10 @@ import React from "react";
 import Form from "../components/Form";
 import Header from "../components/Header";
 
-const Home = () => {
+const Home = ({logged, setLogged}) => {
     return (
         <div className="home-page">
-           <Header/>
+           <Header logged={logged} setLogged={setLogged}/>
            <Form/>
         </div>
     );

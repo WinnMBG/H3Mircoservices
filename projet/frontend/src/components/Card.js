@@ -1,6 +1,7 @@
 import React from "react";
 import { addFilm, deleteFilm } from "../redux/actions/films";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Swal from 'sweetalert2'
 
 /**
  * 
@@ -8,6 +9,7 @@ import { useDispatch } from "react-redux";
  */
 const Card = ({ mov, _id }) => {
     const dispatch = useDispatch()
+    const user = useSelector(state => state.userReducer.user)
     const dateFormater = (date) => {
         let [yy, mm, dd] = date.split("-");
         return [dd,mm,yy].join("/");
@@ -79,16 +81,25 @@ const Card = ({ mov, _id }) => {
     }
 
     const addStorage = () => {
-        const state = {
-            title: mov.title,
-            poster_path: mov.poster_path,
-            release_date: mov.release_date,
-            vote_average: mov.vote_average,
-            genre_ids: mov.genre_ids,
-            id: mov.id,
-            overview: mov.overview
+        if (!user?.name) {
+            Swal.fire({
+                title:"Not Allowed!",
+                text: "You need to be logged in to save your favorite movies",
+                icon: "error"
+            });
+            return
+        } else {
+            const state = {
+                title: mov.title,
+                poster_path: mov.poster_path,
+                release_date: mov.release_date,
+                vote_average: mov.vote_average,
+                genre_ids: mov.genre_ids,
+                id: mov.id,
+                overview: mov.overview
+            }
+            dispatch(addFilm(state, state.id))
         }
-        dispatch(addFilm(state, state.id))
     };
 
     const deleteStorage = (_id) => {

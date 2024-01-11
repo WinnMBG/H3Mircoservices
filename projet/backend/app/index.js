@@ -148,6 +148,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.post("/index", async (req, res) => {
   try {
     const resp = await client_el.indices.create({ index: "films" });
+    const resp2 = await client_el.indices.create({ index: "users" });
     res.status(200).send(resp);
   } catch (e) {
     res.status(500).send(e.message);

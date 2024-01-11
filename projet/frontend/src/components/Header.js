@@ -1,30 +1,28 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { logout } from "../redux/actions/user";
+import { useDispatch } from "react-redux";
 
 /**
  *
  * Header movie component
  */
-const Header = () => {
+const Header = ({ logged, setLogged }) => {
+  const dispatch = useDispatch();
+
+  const deconnect = () => {
+    setLogged(!logged);
+    dispatch(logout());
+    window.location.pathname = "/login";
+  };
+
   return (
     <div className="header">
       <nav>
         <ul>
           {window.location.pathname === "/coup-de-coeur" ? (
             <>
-              {" "}
-              <NavLink
-                to="/"
-                className={(nav) => (nav.isActive ? "nav-active" : "")}
-              >
-                <li>Accueil</li>
-              </NavLink>
-              <NavLink
-                to="/coup-de-coeur"
-                className={(nav) => (nav.isActive ? "nav-active" : "")}
-              >
-                <li>Coup de Coeur</li>
-              </NavLink>
+              <button onClick={deconnect}>Se déconnecter</button>
             </>
           ) : null}
           <NavLink
