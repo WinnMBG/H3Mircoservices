@@ -2,14 +2,22 @@ import { existsSync, mkdirSync, appendFileSync } from 'fs';
 import { join } from 'path';
 
 // Sample log messages
-const sampleLogs = [
-    { level: "INFO", message: "User logged in", user_id: 1 },
-    { level: "DEBUG", message: "Query executed", user_id: 3 },
+const manAthletes = [
+    { level: "INFO", message: "Neymar", user_id: 1 },
+    { level: "INFO", message: "LeBron James", user_id: 15 },
+    { level: "INFO", message: "Lionel Messi", user_id: 76 },
+    { level: "DEBUG", message: "Cristiano Ronaldo", user_id: 20 },
+    { level: "DEBUG", message: "Micheal Jordan", user_id: 63 },
+    { level: "DEBUG", message: "Kyrie Irving", user_id: 129}
 ];
 
-const errorLogs = [
-    { level: "ERROR", message: "Failed to connect to database", user_id: 2 },
-    { level: "ERROR", message: "Permission denied", user_id: 4 },
+const womanAthletes = [
+    { level: "ERROR", message: "Sam Kerr", user_id: 2 },
+    { level: "ERROR", message: "Alisha Lehmann", user_id: 4 },
+    { level: "ERROR", message: "Sabrina Ionescu", user_id: 2 },
+    { level: "ERROR", message: "Aja Wilson", user_id: 4 },
+    { level: "ERROR", message: "Maya Moore", user_id: 2 },
+    { level: "ERROR", message: "Alex Morgan", user_id: 4 }
 ];
 
 // Local setup
@@ -30,8 +38,7 @@ function sendLog(log) {
 
 function simulateLogStream() {
     setInterval(() => {
-        const log = Math.random() < 0.1 ? errorLogs[Math.floor(Math.random() * errorLogs.length)] : sampleLogs[Math.floor(Math.random() * sampleLogs.length)];
-
+        const log = Math.random() < 0.1 ? manAthletes[Math.floor(Math.random() * manAthletes.length)] : womanAthletes[Math.floor(Math.random() * womanAthletes.length)];
         sendLog(log);
         console.log(log);
     }, Math.floor(Math.random() * (3000 - 500) + 500)); // Random sleep between 0.5s and 3s
