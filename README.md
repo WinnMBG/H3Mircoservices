@@ -100,3 +100,8 @@ Il y a une documentation swagger avec tous les endpoints utilisés poour constru
 Les requêtes seront effectuées quant à elles, au niveau du **port 3001** qui sera mis à disposition au niveau de l'application globale (grâce au conteneur s'occupant du backend).
 
 
+# How to start the app
+
+```
+docker compose up -d
+```
