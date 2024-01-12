@@ -84,6 +84,14 @@ Voici un graphique obtenu après avoir lancé l'application:
 
 ![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/111c7e8f-e9d3-4f71-be25-0dad9fe47a5f)
 
+# ElastichSearch 
+
+Suite au projet de cette semaine, nous avions du ajouter la stack ELK (Elastic, Logstash and Kibana) pour avoir un moteur de recherche efficace et rapide sur notre app.
+
+Real-time data Visualizing :
+
+![Capture d’écran du 2024-01-12 12-18-52](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/58342b59-e758-4475-8bc2-8c0e559582e2)
+
 
 Il y a une documentation swagger avec tous les endpoints utilisés poour construire l'API (qui est très simpliste comme vous pouvez le constater)
 Les requêtes seront effectuées quant à elles, au niveau du **port 3001** qui sera mis à disposition au niveau de l'application globale (grâce au conteneur s'occupant du backend).
