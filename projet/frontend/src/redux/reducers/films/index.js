@@ -5,7 +5,7 @@ const initialState = {
   const filmReducer = (state = initialState, action) => {
     switch (action.type) {
       case 'GET_FILMS':
-        return { ...state, films: action.data }
+        return { ...state, films: action.data.hits.hits }
       case 'ADD_FILM':
         return { ...state, films: [...state.films, action.data] }
       case "DELETE_FILM":

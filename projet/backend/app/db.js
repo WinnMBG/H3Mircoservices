@@ -2,7 +2,7 @@ import { mongoose } from 'mongoose'
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(`mongodb://winn:password@database:27017/`, {useNewUrlParser: true, useUnifiedTopology: true})
+        await mongoose.connect(`mongodb://winn:password@localhost:27017/`, {useNewUrlParser: true, useUnifiedTopology: true})
         console.log('MongoDB Connected')
     } catch (error){
         console.log(error.message);

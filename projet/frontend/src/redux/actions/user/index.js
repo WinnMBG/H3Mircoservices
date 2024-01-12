@@ -14,7 +14,7 @@ export const loginUser = (usr) => {
       .then((res) => {
         dispatch({
           type: "LOGIN",
-          data: res.data,
+          data: res.data.data,
         });
       });
   };

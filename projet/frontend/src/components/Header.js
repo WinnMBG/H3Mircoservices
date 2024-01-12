@@ -24,13 +24,23 @@ const Header = ({ logged, setLogged }) => {
             <>
               <button onClick={deconnect}>Se déconnecter</button>
             </>
-          ) : null}
-          <NavLink
-            to="/login"
-            className={(nav) => (nav.isActive ? "nav-active" : "")}
-          >
-            <li>Se connecter</li>
-          </NavLink>
+          ) : (
+            <>
+              {" "}
+              <NavLink
+                to="/login"
+                className={(nav) => (nav.isActive ? "nav-active" : "")}
+              >
+                <li>Se connecter</li>
+              </NavLink>
+            </>
+          )}
+           <NavLink
+                to="/"
+                className={(nav) => (nav.isActive ? "nav-active" : "")}
+              >
+                <li>Chercher des films</li>
+              </NavLink>
         </ul>
       </nav>
       <h1>CinéDuRaT</h1>
