@@ -88,7 +88,10 @@ Voici un graphique obtenu après avoir lancé l'application:
 
 Suite au projet de cette semaine, nous avions du ajouter la stack ELK (Elastic, Logstash and Kibana) pour avoir un moteur de recherche efficace et rapide sur notre app.
 
-Real-time data Visualizing :
+Real-time data Visualizing:
+
+![image](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/1a646c73-a045-42ea-ba81-681fdacbcf4c)
+
 
 ![Capture d’écran du 2024-01-12 12-18-52](https://github.com/WinnMBG/H3Mircoservices/assets/77972619/58342b59-e758-4475-8bc2-8c0e559582e2)
 
