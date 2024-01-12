@@ -56,7 +56,7 @@ monitoring.elasticsearch:
   # Scheme and port can be left out and will be set to the default (http and 9200)
   # In case you specify an additional path, the scheme is required: http://localhost:9200/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
-  hosts: ["localhost:9200"]
+  hosts: ["elasticsearch_container:9200"]
 
 output.elasticsearch:
   hosts: ["http://elasticsearch_container:9200"] ## Monitoring cluster
@@ -64,3 +64,6 @@ output.elasticsearch:
   #protocol: "https"
   #username: "elastic"
   #password: "changeme"
+
+setup.kibana:
+  host: kibana:5601

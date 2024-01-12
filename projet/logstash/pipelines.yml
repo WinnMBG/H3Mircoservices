@@ -5,4 +5,4 @@
   path.config: "/usr/share/logstash/pipeline/logstash.conf"
 
 - pipeline.id: node-pipeline
-  path.config: "/usr/share/logstash/pipeline/logstash.conf"
+  path.config: "/usr/share/logstash/pipeline/logstash_file.conf"

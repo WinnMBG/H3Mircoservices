@@ -149,7 +149,7 @@ app.post("/index", async (req, res) => {
   try {
     const resp = await client_el.indices.create({ index: "films" });
     const resp2 = await client_el.indices.create({ index: "users" });
-    res.status(200).send(resp);
+    res.status(200).send({resp, resp2});
   } catch (e) {
     res.status(500).send(e.message);
   }
@@ -166,14 +166,14 @@ app.get("/index", async (req, res) => {
   }
 });
 
-app.get("/films", async (req, res) => {
-  try {
-    const films = await Film.find();
-    res.json(films);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+// app.get("/films", async (req, res) => {
+//   try {
+//     const films = await Film.find();
+//     res.json(films);
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//   }
+// });
 
 /* Equivalent avec elastic*/
 app.get("/films", async (req, res) => {
@@ -187,32 +187,32 @@ app.get("/films", async (req, res) => {
   }
 });
 
-app.post("/film", async (req, res) => {
-  try {
-    const {
-      poster_path,
-      title,
-      release_date,
-      overview,
-      id,
-      vote_average,
-      genre_ids,
-    } = req.body;
-    const film = new Film({
-      poster_path,
-      title,
-      release_date,
-      overview,
-      id,
-      vote_average,
-      genre_ids,
-    });
-    const f = await film.save();
-    res.json(f);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+// app.post("/film", async (req, res) => {
+//   try {
+//     const {
+//       poster_path,
+//       title,
+//       release_date,
+//       overview,
+//       id,
+//       vote_average,
+//       genre_ids,
+//     } = req.body;
+//     const film = new Film({
+//       poster_path,
+//       title,
+//       release_date,
+//       overview,
+//       id,
+//       vote_average,
+//       genre_ids,
+//     });
+//     const f = await film.save();
+//     res.json(f);
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//   }
+// });
 
 /* Equivalent avec elastic*/
 app.post("/film", async (req, res) => {
@@ -228,7 +228,6 @@ app.post("/film", async (req, res) => {
     } = req.body;
     const film = await client_el.index({
       index: "films",
-      id: `${id}`,
       document: {
         poster_path,
         title,
@@ -245,15 +244,15 @@ app.post("/film", async (req, res) => {
   }
 });
 
-app.delete("/film/:id", async (req, res) => {
-  try {
-    const film = await Film.deleteOne({ _id: req.params.id });
-    if (!film) throw new Error("Film not found");
-    res.json({ message: "Film deleted", success: true, id: req.params.id });
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+// app.delete("/film/:id", async (req, res) => {
+//   try {
+//     const film = await Film.deleteOne({ _id: req.params.id });
+//     if (!film) throw new Error("Film not found");
+//     res.json({ message: "Film deleted", success: true, id: req.params.id });
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//   }
+// });
 
 /* Equivalent avec elastic*/
 
@@ -271,8 +270,14 @@ app.delete("/film/:id", async (req, res) => {
 });
 const users = [];
 
-app.get("/users", (req, res) => {
-  res.json(users);
+app.get("/users", async (req, res) => {
+  try {
+    const films = await client_el.get({
+      index: "users",
+    });
+  } catch (e) {
+    res.status(500).send(e.message)
+  }
 });
 
 app.post("/users", async (req, res) => {
@@ -281,7 +286,15 @@ app.post("/users", async (req, res) => {
     const salt = await bcrypt.genSalt();
     const hashedPass = await bcrypt.hash(password, salt);
     users.push({ identifiant, hashedPass, hash: salt });
-    res.status(201).send(users);
+    const user = await client_el.index({
+      index: "users",
+      document: {
+        identifiant,
+        hashedPass,
+        hash : salt
+      },
+    });
+    res.status(201).send(user);
   } catch (e) {
     res.status(500).send(e.message);
   }
@@ -289,7 +302,11 @@ app.post("/users", async (req, res) => {
 });
 
 app.post("/user/login", async (req, res) => {
-  const user = users.find((user) => user.identifiant === req.body.identifiant);
+  // const user = users.find((user) => user.identifiant === req.body.identifiant);
+  const users = await client_el.get({
+    index: "users",
+  });
+  console.log(users)
   if (user == null) {
     return res.status(400).send("Cannot find user");
   }

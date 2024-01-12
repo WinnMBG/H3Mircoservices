@@ -1,16 +1,25 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
 filebeat.inputs:
 - type: log
   enabled: true
   paths:
     - /logs/*.log
 
-filebeat.autodiscover:
-  providers:
-    - type: docker
-      hints.enabled: true
+# filebeat.autodiscover:
+#   providers:
+#     - type: docker
+#       hints.enabled: true
 
 processors:
   - add_docker_metadata: ~
+
+# output.elasticsearch:
+#   enable: true
+#   hosts: ["elasticsearch_container:9200"]
 
 output.logstash:
   hosts: ["logstash:5045"]

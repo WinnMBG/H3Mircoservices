@@ -101,11 +101,13 @@ services:
     container_name: logstash
     ports:
       - '9600:9600'
+      - "5044:5044"
+      - "5045:5045"
     volumes:
       - ./datatest/:/usr/share/logstash/external-data/
-      - ./logstash/pipeline/:/usr/share/logstash/pipeline
+      - ./logstash/pipelines/:/usr/share/logstash/pipeline
       - ./logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-    # command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+    # command: logstash -f /usr/share/logstash/pipeline/logstash_json.conf |logstash -f /usr/share/logstash/pipeline/logstash_csv.conf | logstash -f /usr/share/logstash/pipeline/logstash.conf
     environment:
       LS_SETTINGS_DIR: /usr/share/logstash/config
       xpack.monitoring.enabled: 'true'
@@ -143,13 +145,12 @@ services:
   filebeat:
     image: docker.elastic.co/beats/filebeat:8.11.3
     container_name: filebeat
-    ports:
-      - '5044:5044'
+    command: filebeat -e -strict.perms=false
     volumes:
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - ./logs:/logs
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro'
-      - /var/run/docker.sock:/var/run/docker.sock:ro'
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - moviesnet
     depends_on:
@@ -163,7 +164,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
-    command: ["-e", "--strict.perms=false"]
+    command: metricbeat -e --strict.perms=false
     depends_on:
       - elasticsearch    
       - kibana
